@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#F1F4F6">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F1F4F6">
+<meta name="color-scheme" content="light">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIkRlcHJlY2lhdGlvbiBDYWxjdWxhdG9yIiwgInNob3J0X25hbWUiOiAiRGVwcmVjaWF0aW9uIiwgImRlc2NyaXB0aW9uIjogIldvcmsgb3V0IGRlcHJlY2lhdGlvbiBhbmQgdGF4IHNhdmVkIG9uIGJ1c2luZXNzIGFzc2V0cyBpbiBJbmRpYS4iLCAic3RhcnRfdXJsIjogIi4vIiwgInNjb3BlIjogIi4vIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGMUY0RjYiLCAidGhlbWVfY29sb3IiOiAiI0YxRjRGNiIsICJpY29ucyI6IFt7InNyYyI6ICIuL2ljb24tMTAyNC5wbmciLCAic2l6ZXMiOiAiMTAyNHgxMDI0IiwgInR5cGUiOiAiaW1hZ2UvcG5nIn1dfQ==">
+<link rel="apple-touch-icon" href="./icon-1024.png">
+<link rel="icon" href="./icon-1024.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Depreciation">
+<meta name="description" content="Work out depreciation and tax saved on business assets in India.">
+<title>Depreciation Calculator — India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:light;
+    --paper:#F1F4F6;
+    --card:#FBFCFD;
+    --ink:#000000;
+    --muted:#5A6268;
+    --rule:#D6DCE1;
+    --rule-soft:#E7EBEF;
+    --sky:#0284C7;
+    --sky-bright:#0EA5E9;
+    --sky-fill:#BAE2FA;
+    --sky-wash:#FBFCFD;
+    --field:#FFFFFF;
+    --shadow:0 1px 2px rgba(0,0,0,.04), 0 6px 20px rgba(0,0,0,.04);
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;background:#F1F4F6;background:var(--paper)}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:#F1F4F6;
+    background:var(--paper);
+    color:#000000;
+    color:var(--ink);
+    font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    font-variant-numeric:tabular-nums;
+    padding:24px 16px 60px;
+  }
+  .wrap{max-width:620px;margin:0 auto}
+
+  header{margin-bottom:24px}
+  h1{
+    font-weight:800;
+    font-size:clamp(1.65rem,7vw,2.3rem);
+    line-height:1.15;
+    letter-spacing:-.025em;
+    margin:0 0 8px;
+  }
+  header p{margin:0;color:var(--muted);font-size:.95rem;max-width:46ch}
+
+  /* ---------- inputs ---------- */
+  .panel{
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:6px 18px;
+    margin-bottom:22px;
+  }
+  .row{padding:16px 0;border-bottom:1px solid var(--rule-soft)}
+  .row:last-child{border-bottom:none}
+  .row > label{display:block;font-size:.95rem;font-weight:600;margin-bottom:9px}
+  .hint{display:block;font-weight:400;font-size:.8rem;color:var(--muted);margin-top:7px}
+  .hint b{color:var(--sky);font-weight:600}
+
+  input,select{
+    font:inherit;font-family:inherit;font-variant-numeric:tabular-nums;
+    color:var(--ink);background:var(--field);
+    border:1.5px solid var(--rule);border-radius:12px;
+    padding:13px 14px;width:100%;
+  }
+  select{
+    appearance:none;-webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' fill='none' stroke='%235A5A5A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 14px center;
+    padding-right:40px;
+  }
+  .affix{display:flex;align-items:center;background:var(--field);border:1.5px solid var(--rule);border-radius:12px;overflow:hidden}
+  .affix:focus-within{border-color:var(--sky-bright)}
+  .affix span{padding:0 2px 0 14px;color:var(--muted);font-weight:600}
+  .affix span.suf{padding:0 14px 0 2px}
+  .affix input{border:none;background:transparent;padding:13px 6px;font-weight:600}
+  .affix input:focus{outline:none}
+  #cost{font-size:1.15rem;letter-spacing:-.01em}
+  .affix.big span{font-size:1.15rem}
+
+  .pair{display:flex;gap:12px}
+  .pair > div{flex:1;min-width:0}
+
+  :is(input,select,button,[tabindex]):focus-visible{
+    outline:2px solid var(--sky-bright);outline-offset:2px;
+  }
+  input[type=range]{
+    padding:0;border:none;background:transparent;
+    accent-color:var(--sky-bright);height:28px;
+  }
+  .yrs{display:flex;align-items:baseline;gap:6px;margin-bottom:4px}
+  .yrs b{font-size:1.3rem;font-weight:800;color:var(--sky)}
+
+  .check{display:flex;align-items:flex-start;gap:12px;padding:15px 0;border-top:1px solid var(--rule-soft)}
+  .check input{margin:2px 0 0;width:20px;height:20px;padding:0;border-radius:6px;accent-color:var(--sky-bright);flex:0 0 auto}
+  .check label{font-size:.9rem;line-height:1.45}
+
+  /* ---------- hero ---------- */
+  .hero{
+    border:1.5px solid var(--sky-fill);
+    border-radius:18px;
+    background:var(--sky-wash);
+    padding:26px 20px 22px;
+    margin-bottom:26px;
+  }
+  .hero .cap{font-size:.88rem;color:var(--muted);margin:0 0 8px;font-weight:500}
+  .big{
+    font-size:clamp(2.4rem,13vw,3.6rem);
+    font-weight:800;
+    line-height:1;
+    color:var(--sky);
+    letter-spacing:-.035em;
+    margin:0;
+    word-break:break-word;
+  }
+  .sub{display:flex;gap:24px;flex-wrap:wrap;margin-top:22px;padding-top:18px;border-top:1px solid var(--sky-fill)}
+  .sub .k{font-size:.78rem;color:var(--muted);margin-bottom:3px;font-weight:500}
+  .sub .v{font-size:1.05rem;font-weight:700}
+
+  /* ---------- ledger ---------- */
+  h2{font-weight:800;font-size:1.3rem;letter-spacing:-.02em;margin:0 0 4px}
+  .lede{color:var(--muted);font-size:.87rem;margin:0 0 14px}
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;
+    background:var(--card);border:1px solid var(--rule);border-radius:16px;
+    padding:14px 16px;box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:320px}
+  th{
+    text-align:right;font-weight:600;font-size:.75rem;color:var(--muted);
+    padding:0 0 10px;border-bottom:1.5px solid var(--rule);white-space:nowrap;
+  }
+  th:first-child,td:first-child{text-align:left}
+  td{text-align:right;padding:11px 0;border-bottom:1px solid var(--rule-soft);white-space:nowrap}
+  td+td,th+th{padding-left:12px}
+  td:first-child{color:var(--muted);font-weight:600}
+  tbody tr:last-child td{border-bottom:1.5px solid var(--rule)}
+  td.dep{position:relative;font-weight:600}
+  td.dep i{
+    position:absolute;left:10px;right:0;bottom:5px;height:3px;
+    background:var(--sky-fill);border-radius:2px;display:block;font-style:normal;
+  }
+  td.save{color:var(--sky);font-weight:700}
+  tfoot td{font-weight:800;border-bottom:none;padding-top:13px}
+  tfoot td:first-child{font-weight:600;color:var(--muted);font-size:.8rem}
+
+  .note{
+    margin-top:26px;padding:18px 18px 16px;
+    background:var(--card);border:1px solid var(--rule);border-radius:16px;
+    color:var(--muted);font-size:.85rem;line-height:1.55;
+  }
+  .note p{margin:0 0 12px}
+  .note p:last-child{margin-bottom:0}
+  .note b{color:var(--ink);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>What your asset saves you in tax</h1>
+    <p>Buy something for the business, write a slice of it off every year, pay less tax. Here's how much.</p>
+  </header>
+
+  <div class="panel">
+    <div class="row">
+      <label for="item">What did you buy?</label>
+      <select id="item">
+        <optgroup label="Tech — 40%">
+          <option value="40">Laptop, desktop or computer</option>
+          <option value="40">Printer, scanner, server, router</option>
+          <option value="40">Software</option>
+        </optgroup>
+        <optgroup label="Machines &amp; vehicles — 15%">
+          <option value="15" selected>Mobile phone</option>
+          <option value="15">Car, scooter or bike</option>
+          <option value="15">Truck, tempo or goods vehicle</option>
+          <option value="15">Machinery, tools or equipment</option>
+          <option value="15">AC, fridge, water cooler</option>
+          <option value="15">Generator or inverter</option>
+        </optgroup>
+        <optgroup label="Shop &amp; office — 10%">
+          <option value="10">Shop, office or godown building</option>
+          <option value="10">Furniture — tables, chairs, counters</option>
+          <option value="10">Electrical fittings and wiring</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="40">Temporary structure — site shed, partition</option>
+          <option value="25">Patent, trademark, licence</option>
+          <option value="5">Residential building</option>
+          <option value="0">Land</option>
+          <option value="custom">Something else — I'll type the rate</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="cost">What it cost</label>
+      <div class="affix big"><span>₹</span><input id="cost" type="text" inputmode="numeric" autocomplete="off" value="1,00,000"></div>
+      <span class="hint" id="costWords">One lakh</span>
+    </div>
+
+    <div class="row">
+      <div class="pair">
+        <div>
+          <label for="rate">Depreciation rate</label>
+          <div class="affix"><input id="rate" type="number" min="0" max="100" step="0.5" value="15" inputmode="decimal"><span class="suf">%</span></div>
+        </div>
+        <div>
+          <label for="tax">Your tax rate</label>
+          <select id="tax">
+            <optgroup label="Proprietor / individual">
+              <option value="5">5%</option>
+              <option value="10">10%</option>
+              <option value="15">15%</option>
+              <option value="20">20%</option>
+              <option value="25">25%</option>
+              <option value="30" selected>30%</option>
+            </optgroup>
+            <optgroup label="Firm / LLP / company">
+              <option value="22">22%</option>
+              <option value="25">25%</option>
+              <option value="30">30%</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      <span class="hint">Rate fills in from your choice above. Change it if you know better.</span>
+    </div>
+
+    <div class="row">
+      <div class="yrs"><b id="yearsOut">10</b> <span>years ahead</span></div>
+      <input id="years" type="range" min="1" max="20" step="1" value="10" aria-label="Years to project">
+    </div>
+
+    <div class="check">
+      <input id="cess" type="checkbox" checked>
+      <label for="cess">Add 4% health &amp; education cess</label>
+    </div>
+    <div class="check">
+      <input id="half" type="checkbox">
+      <label for="half">Bought late in the year — used under 180 days, so year 1 gets half the rate</label>
+    </div>
+  </div>
+
+  <div class="hero">
+    <p class="cap">Tax you won't pay, over <span id="capYears">10</span> years</p>
+    <p class="big" id="heroSaved">₹0</p>
+    <div class="sub">
+      <div><div class="k">Written off</div><div class="v" id="totalDep">₹0</div></div>
+      <div><div class="k">Value still on books</div><div class="v" id="wdvLeft">₹0</div></div>
+      <div><div class="k">Effective tax rate</div><div class="v" id="effRate">0%</div></div>
+    </div>
+  </div>
+
+  <h2>Year by year</h2>
+  <p class="lede" id="method">Reducing balance — each year's write-off is a share of what's left, not of the original price.</p>
+  <div class="scroller">
+    <table>
+      <thead>
+        <tr><th>Yr</th><th>Written off</th><th>Tax saved</th><th>Value left</th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+      <tfoot>
+        <tr><td>Total</td><td id="fDep">₹0</td><td id="fSaved">₹0</td><td id="fWdv">₹0</td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="note">
+    <p><b>Reducing balance never hits zero.</b> A small value always stays on the books until you sell or scrap the asset — that's normal, and you settle it in the year you dispose of it.</p>
+    <p><b>Tax saved isn't profit.</b> It's tax you didn't have to pay because the write-off cut your taxable income. You still spent the money on the asset.</p>
+    <p><b>Filing works slightly differently.</b> Income tax pools every asset at the same rate into one block, so your return won't show one asset on its own. The yearly amounts are the same — this view is for planning a purchase. Run it past your CA before you file.</p>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var item=$('item'),cost=$('cost'),rate=$('rate'),tax=$('tax'),
+      years=$('years'),cess=$('cess'),half=$('half');
+
+  var inr=new Intl.NumberFormat('en-IN',{maximumFractionDigits:0});
+  function money(n){return '\u20B9'+inr.format(Math.max(0,Math.round(n)))}
+
+  /* ---- comma formatting on the cost field ---- */
+  function digitsOf(s){return String(s).replace(/[^0-9]/g,'')}
+
+  function formatCostField(){
+    var start=cost.selectionStart;
+    var digitsBefore=digitsOf(cost.value.slice(0,start)).length;
+    var d=digitsOf(cost.value).replace(/^0+(?=\d)/,'');
+    if(d===''){cost.value='';return}
+    if(d.length>12) d=d.slice(0,12);
+    var out=inr.format(parseInt(d,10));
+    cost.value=out;
+    var seen=0,pos=out.length;
+    if(digitsBefore===0){pos=0}
+    else{
+      for(var i=0;i<out.length;i++){
+        if(out.charCodeAt(i)>=48&&out.charCodeAt(i)<=57) seen++;
+        if(seen===digitsBefore){pos=i+1;break}
+      }
+    }
+    try{cost.setSelectionRange(pos,pos)}catch(e){}
+  }
+
+  var ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten'];
+  function nice(n){
+    var s=(Math.round(n*100)/100).toString();
+    return s.replace(/\.0+$/,'').replace(/(\.\d*?)0+$/,'$1');
+  }
+  function inWords(n){
+    if(!n) return 'Enter an amount';
+    if(n>=10000000) return nice(n/10000000)+' crore';
+    if(n>=100000)   return nice(n/100000)+' lakh';
+    if(n>=1000)     return nice(n/1000)+' thousand';
+    if(n<=10)       return ONES[n].charAt(0).toUpperCase()+ONES[n].slice(1);
+    return inr.format(n);
+  }
+
+  function effectiveTax(){
+    var t=parseFloat(tax.value)||0;
+    return cess.checked ? t*1.04 : t;
+  }
+
+  function calc(){
+    var c=parseInt(digitsOf(cost.value)||'0',10),
+        r=Math.min(100,Math.max(0,parseFloat(rate.value)||0))/100,
+        n=parseInt(years.value,10),
+        et=effectiveTax()/100;
+
+    $('costWords').textContent=inWords(c);
+
+    var wdv=c,totDep=0,totSave=0,data=[],maxDep=0;
+    for(var y=1;y<=n;y++){
+      var thisRate=(y===1&&half.checked)?r/2:r;
+      var dep=wdv*thisRate, save=dep*et;
+      wdv-=dep; totDep+=dep; totSave+=save;
+      if(dep>maxDep) maxDep=dep;
+      data.push({y:y,dep:dep,save:save,wdv:wdv});
+    }
+
+    $('yearsOut').textContent=n;
+    $('capYears').textContent=n;
+    $('heroSaved').textContent=money(totSave);
+    $('totalDep').textContent=money(totDep);
+    $('wdvLeft').textContent=money(wdv);
+    $('effRate').textContent=(Math.round(effectiveTax()*100)/100)+'%';
+    $('fDep').textContent=money(totDep);
+    $('fSaved').textContent=money(totSave);
+    $('fWdv').textContent=money(wdv);
+
+    var html='';
+    for(var i=0;i<data.length;i++){
+      var d=data[i];
+      var w=maxDep>0?Math.max(2,(d.dep/maxDep)*100):0;
+      html+='<tr><td>'+d.y+'</td>'
+          +'<td class="dep">'+money(d.dep)+'<i style="width:'+w.toFixed(1)+'%"></i></td>'
+          +'<td class="save">'+money(d.save)+'</td>'
+          +'<td>'+money(d.wdv)+'</td></tr>';
+    }
+    $('rows').innerHTML=html;
+
+    $('method').textContent = r===0
+      ? 'This category gets no depreciation — land and similar assets are never written off.'
+      : 'Reducing balance \u2014 each year\u2019s write-off is a share of what\u2019s left, not of the original price.';
+  }
+
+  cost.addEventListener('input',function(){formatCostField();calc()});
+  cost.addEventListener('blur',function(){formatCostField();calc()});
+
+  item.addEventListener('change',function(){
+    if(item.value!=='custom') rate.value=item.value;
+    calc();
+  });
+  rate.addEventListener('input',function(){
+    var opts=item.options;
+    if(String(parseFloat(rate.value))!==opts[item.selectedIndex].value){
+      for(var i=0;i<opts.length;i++){
+        if(opts[i].value==='custom'){item.selectedIndex=i;break}
+      }
+    }
+    calc();
+  });
+  [tax,years,cess,half].forEach(function(el){
+    el.addEventListener('input',calc);
+    el.addEventListener('change',calc);
+  });
+
+  calc();
+})();
+</script>
+</body>
+</html>
