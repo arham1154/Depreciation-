@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F1F4F6">
 <meta name="color-scheme" content="light">
-<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIkRlcHJlY2lhdGlvbiBDYWxjdWxhdG9yIiwgInNob3J0X25hbWUiOiAiRGVwcmVjaWF0aW9uIiwgImRlc2NyaXB0aW9uIjogIldvcmsgb3V0IGRlcHJlY2lhdGlvbiBhbmQgdGF4IHNhdmVkIG9uIGJ1c2luZXNzIGFzc2V0cyBpbiBJbmRpYS4iLCAic3RhcnRfdXJsIjogIi4vIiwgInNjb3BlIjogIi4vIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGMUY0RjYiLCAidGhlbWVfY29sb3IiOiAiI0YxRjRGNiIsICJpY29ucyI6IFt7InNyYyI6ICIuL2ljb24tMTAyNC5wbmciLCAic2l6ZXMiOiAiMTAyNHgxMDI0IiwgInR5cGUiOiAiaW1hZ2UvcG5nIn1dfQ==">
-<link rel="apple-touch-icon" href="./icon-1024.png">
-<link rel="icon" href="./icon-1024.png">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="icon" href="./icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -408,6 +408,13 @@
 
   calc();
 })();
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js').catch(function(){});
+  });
+}
 </script>
 </body>
 </html>
